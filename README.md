@@ -20,11 +20,11 @@ You can view a live demo of the project [here](http://chatgpt.unaux.com/).
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/chatbot-interface.git
+   git clone https://github.com/DualsFWShield/ChatGPT-clone.git
    ```
 2. **Navigate to the project directory**:
    ```bash
-   cd chatbot-interface
+   cd ChatGPT-clone
    ```
 3. **Open `index.html`**:
    You can simply open the `index.html` file in your browser to view the project.
