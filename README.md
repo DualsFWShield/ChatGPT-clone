@@ -14,7 +14,7 @@ This project is a web-based chatbot interface with a dark/light mode toggle, res
 
 ## Demo
 
-You can view a live demo of the project [here](http://chatgpt.unaux.com/).
+You can view a live demo of the project [here](https://dualsfwshield.github.io/ChatGPT-clone/).
 
 ## Installation
 
