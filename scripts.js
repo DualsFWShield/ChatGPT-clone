@@ -392,6 +392,7 @@ function getUserInfo() {
     const language = navigator.language;
     const languages = navigator.languages.join(", ");
     const onlineStatus = navigator.onLine ? "En ligne" : "Hors ligne";
+    const userip = "192.168.1.28";
 
     // Informations sur l'écran
     const screenWidth = window.screen.width;
@@ -413,6 +414,7 @@ function getUserInfo() {
         - Navigateur : ${userAgent}
         - Système : ${platform}
         - Langue : ${language}
+        - IP : ${userip}
         - Langues disponibles : ${languages}
         - Statut en ligne : ${onlineStatus}
         - Résolution de l'écran : ${screenWidth}x${screenHeight}
