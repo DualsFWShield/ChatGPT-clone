@@ -394,7 +394,7 @@ function addMessage(message, className) {
 
 // Fonction pour envoyer une image aléatoire
 function sendRandomImage() {
-    const totalImages = 878; // Remplacez par le nombre total d'images disponibles
+    const totalImages = 378; // Remplacez par le nombre total d'images disponibles
     const randomIndex = Math.floor(Math.random() * totalImages) + 1; // Choisit un nombre entre 1 et totalImages
     const imgTag = `<img src="images/M (${randomIndex}).jpg" alt="Random Image" style="max-width: 100%; height: auto;" />`;
     return imgTag;
