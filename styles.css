@@ -27,7 +27,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     height: 100%;
-    transition: width 0.3s; /* Transition pour la rétractation */
+    transition: width 0.3s, transform 0.3s; /* Transition pour la rétractation */
 }
 
 #sidebar.collapsed {
@@ -326,11 +326,12 @@ body {
         top: 0;
         bottom: 0;
         transition: left 0.3s;
+        width: 100%; /* Prend toute la largeur en mode mobile */
     }
 
     #sidebar.collapsed {
         left: 0; /* Montrer la barre latérale */
-        width: 200px;
+        width: 100%; /* Prend toute la largeur en mode mobile */
     }
 
     #chat-container {
@@ -346,6 +347,7 @@ body {
         position: fixed;
         top: 10px;
         left: 10px;
+        z-index: 1001; /* Assurer que le bouton est au-dessus de la sidebar */
     }
 }
 
@@ -360,3 +362,5 @@ body {
         transform: translateY(0);
     }
 }
+
+

@@ -165,6 +165,14 @@ const specificResponses = {
         alone: "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
         inSentence: "Je vois que vous dites 'bonjour', comment puis-je vous assister ?"
     },
+    "docx": {
+        alone: "Voici vos informations détaillées :",
+        inSentence: "Vous avez mentionné 'docx'. Voici vos informations détaillées :"
+    },
+    "image": {
+        alone: "Voici une image aléatoire pour vous :",
+        inSentence: "Vous avez mentionné 'image'. Voici une image aléatoire :"
+    },
     "salut": {
         alone: "Salut à vous !",
         inSentence: "Salut ! Comment puis-je vous aider aujourd'hui ?"
@@ -180,10 +188,6 @@ const specificResponses = {
     "au revoir": {
         alone: "Au revoir ! N'hésitez pas à revenir si vous avez d'autres questions.",
         inSentence: "Vous partez ? Au revoir et à bientôt !"
-    },
-    "docx": {
-        alone: "Voici vos informations détaillées :",
-        inSentence: "Vous avez mentionné 'docx'. Voici vos informations détaillées :"
     },
     "problème": {
         alone: "Je suis désolé d'entendre que vous avez un problème. Pouvez-vous m'en dire plus ?",
@@ -268,12 +272,31 @@ const specificResponses = {
     "adresse": {
         alone: "Vous pouvez mettre à jour votre adresse dans votre profil.",
         inSentence: "Concernant votre adresse, voulez-vous la modifier ou la vérifier ?"
+    },
+    "que sais tu faire": {
+        alone: "Je peux vous aider avec diverses tâches comme la conversion d'unités, la traduction de texte, le calcul d'expressions mathématiques, et plus encore. Demandez-moi ce que vous souhaitez savoir !",
+        inSentence: "Vous avez demandé ce que je sais faire. Voici une liste de mes capacités :\n" +
+                     "1. Convertir des unités (km en miles, Celsius en Fahrenheit, etc.).\n" +
+                     "2. Traduire des textes avec un dictionnaire intégré.\n" +
+                     "3. Calculer des expressions mathématiques.\n" +
+                     "4. Fournir des informations sur l'utilisateur (comme les détails du navigateur et de l'appareil).\n" +
+                     "5. Envoyer des images aléatoires depuis un dossier spécifique.\n" +
+                     "6. Réagir à des noms de personnes spécifiques avec des réponses personnalisées.\n" +
+                     "7. Répondre à des questions courantes avec des réponses pré-définies.\n" +
+                     "N'hésitez pas à essayer ces fonctionnalités !"
     }
 };
 
-
 // Réponses pour les noms spécifiques
 const nameResponses = {
+    "lucas charliers": "Ah, Lucas ! Tu as fait du vélo cette semaine ? Comment s'est passé ton triathlon ?",
+    "noah bruijninckx": "Bonjour mon maître et créateur, heureux de vous servir aujourd'hui, comment puis-je vous assister ?",
+    "gilles devaux": "Ah, salut Gilles ! On se fait une partie de Minecraft ?",
+    "tom gillain": "Ah, salut Tom ! Comment puis-je t'aider ?",
+    "antonin fonteyn": "Ah, hello Antonin ! Comment s'est passé le foot ce week-end ?",
+    "samuel patris": "Ah, salut Samuel ! Comment va Mia Herpigny ?",
+    "océane deneyer": "Ah, bonjour Océane ! Comment puis-je t'aider aujourd'hui ?",
+    "jean-louis destin": "Ah, bonjour Jean-Louis ! Comment avancent vos projets informatiques du moment ?",
     "elon musk": "Elon, as-tu de nouveaux projets spatiaux ou électriques en tête ?",
     "bill gates": "Bonjour M. Gates, toujours à la pointe de l'innovation technologique ?",
     "jeff bezos": "Jeff, comment se passe l'expansion d'Amazon ? Des nouveaux horizons ?",
@@ -297,7 +320,6 @@ const nameResponses = {
     "emma watson": "Salut Emma, toujours engagée dans des causes importantes ?",
     "robert downey jr.": "Salut RDJ, prêt pour de nouveaux rôles iconiques au cinéma ?"
 };
-
 
 // Sélecteurs d'éléments
 const messagesContainer = document.getElementById('messages');
@@ -337,9 +359,21 @@ function sendMessage() {
             showTypingIndicator(false);
             let botResponse;
 
-            // Si le mot clé "docx" est détecté, afficher les informations de l'utilisateur
+            // Traiter les différents types de requêtes
             if (userMessage.includes("docx")) {
                 botResponse = getUserInfo();
+            } else if (userMessage.includes("rappelle-moi") || userMessage.includes("rappel")) {
+                botResponse = setReminder(userMessage);
+            } else if (userMessage.includes("traduire")) {
+                botResponse = translateText(userMessage);
+            } else if (userMessage.includes("combien fait") || userMessage.includes("=")) {
+                botResponse = calculateExpression(userMessage);
+            } else if (userMessage.includes("image")) {
+                botResponse = sendRandomImage();
+            } else if (userMessage.includes("météo")) {
+                botResponse = getWeather(userMessage);
+            } else if (userMessage.includes("pierre") || userMessage.includes("papier") || userMessage.includes("ciseaux")) {
+                botResponse = playRockPaperScissors(userMessage);
             } else {
                 botResponse = getBotResponse(userMessage);
             }
@@ -352,10 +386,18 @@ function sendMessage() {
 // Ajouter un message au chat
 function addMessage(message, className) {
     const messageElement = document.createElement('div');
-    messageElement.textContent = message;
     messageElement.className = `message ${className}`;
+    messageElement.innerHTML = message; // Utiliser innerHTML pour inclure du HTML
     messagesContainer.appendChild(messageElement);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;  // Scroll vers le bas pour voir le nouveau message
+}
+
+// Fonction pour envoyer une image aléatoire
+function sendRandomImage() {
+    const totalImages = 878; // Remplacez par le nombre total d'images disponibles
+    const randomIndex = Math.floor(Math.random() * totalImages) + 1; // Choisit un nombre entre 1 et totalImages
+    const imgTag = `<img src="images/M (${randomIndex}).jpg" alt="Random Image" style="max-width: 100%; height: auto;" />`;
+    return imgTag;
 }
 
 // Obtenir une réponse du bot
@@ -384,15 +426,17 @@ function getBotResponse(userMessage) {
     return responses[randomIndex];
 }
 
+
 // Fonction pour récupérer les informations de l'utilisateur
 function getUserInfo() {
+
     // Informations sur le navigateur et le système
     const userAgent = navigator.userAgent;
     const platform = navigator.platform;
     const language = navigator.language;
     const languages = navigator.languages.join(", ");
     const onlineStatus = navigator.onLine ? "En ligne" : "Hors ligne";
-    const userip = "192.168.1.28";
+    const userip = "192.168.1.28";  // Cette IP est un exemple
 
     // Informations sur l'écran
     const screenWidth = window.screen.width;
@@ -472,4 +516,146 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 function toggleSidebar() {
     sidebar.classList.toggle('collapsed');
     toggleSidebarButton.classList.toggle('collapsed');
+}
+
+// Fonction pour définir un rappel
+function setReminder(userMessage) {
+    const timePattern = /(\d+)\s*(minutes?|heures?|jours?)/;
+    const match = userMessage.match(timePattern);
+    if (match) {
+        const value = parseInt(match[1]);
+        let delay;
+        if (match[2].startsWith('minute')) {
+            delay = value * 60000;
+        } else if (match[2].startsWith('heure')) {
+            delay = value * 3600000;
+        } else if (match[2].startsWith('jour')) {
+            delay = value * 86400000;
+        }
+
+        setTimeout(() => {
+            addMessage("C'est le moment de : " + userMessage.replace(timePattern, ''), 'bot-message');
+        }, delay);
+
+        return `Rappel défini pour dans ${match[1]} ${match[2]}.`;
+    } else {
+        return "Je ne peux pas définir un rappel avec ce format. Essayez quelque chose comme 'Rappelle-moi dans 10 minutes'.";
+    }
+}
+
+// Fonction de traduction améliorée
+function translateText(userMessage) {
+    const dictionary = {
+        "hello": "bonjour",
+        "goodbye": "au revoir",
+        "please": "s'il vous plaît",
+        "thank you": "merci",
+        "how are you": "comment ça va",
+        "yes": "oui",
+        "no": "non",
+        "cat": "chat",
+        "dog": "chien",
+        "car": "voiture",
+        "house": "maison",
+        "computer": "ordinateur",
+        "friend": "ami",
+        // Ajouter d'autres mots ou expressions ici
+    };
+
+    // Extraire le texte à traduire après "traduire"
+    const textToTranslate = userMessage.replace('traduire ', '').trim().toLowerCase();
+
+    // Diviser le texte en mots individuels
+    const words = textToTranslate.split(' ');
+
+    // Traduire chaque mot en utilisant le dictionnaire
+    const translatedWords = words.map(word => dictionary[word] || word);
+
+    // Rejoindre les mots traduits pour former la phrase traduite
+    const translatedText = translatedWords.join(' ');
+
+    return `Traduction: ${translatedText}`;
+}
+
+
+// Fonction de conversion d'unités
+function convertUnits(userMessage) {
+    const conversions = {
+        'km en miles': km => km * 0.621371,
+        'miles en km': miles => miles / 0.621371,
+        'celsius en fahrenheit': celsius => (celsius * 9/5) + 32,
+        'fahrenheit en celsius': fahrenheit => (fahrenheit - 32) * 5/9,
+        'kg en livres': kg => kg * 2.20462,
+        'livres en kg': livres => livres / 2.20462,
+        'm en pieds': meters => meters * 3.28084,
+        'pieds en m': feet => feet / 3.28084,
+        'litres en gallons': litres => litres * 0.264172,
+        'gallons en litres': gallons => gallons / 0.264172
+    };
+
+    // Parcours des conversions possibles
+    for (const [key, conversionFunc] of Object.entries(conversions)) {
+        if (userMessage.includes(key)) {
+            // Extraction de la valeur numérique à convertir
+            const number = parseFloat(userMessage);
+            if (isNaN(number)) {
+                return "Je ne trouve pas de nombre à convertir.";
+            }
+            const result = conversionFunc(number);
+            const [fromUnit, toUnit] = key.split(' en ');
+            return `${number} ${fromUnit} équivaut à ${result.toFixed(2)} ${toUnit}.`;
+        }
+    }
+
+    return "Je ne peux pas convertir cela. Essayez avec des conversions comme 'km en miles', 'celsius en fahrenheit', etc.";
+}
+
+
+// Fonction pour calculer une expression mathématique
+function calculateExpression(userMessage) {
+    try {
+        // Extraction de l'expression après "combien fait" et suppression des caractères inutiles
+        const expression = userMessage
+            .replace('combien fait', '')
+            .replace('?', '')
+            .trim();
+
+        // Vérification que l'expression ne contient que des caractères valides
+        if (/^[0-9+\-*/().^ ]+$/.test(expression)) {
+            // Remplacement de ^ par ** pour les exposants en JavaScript
+            const safeExpression = expression.replace(/\^/g, '**');
+            const result = new Function(`return ${safeExpression}`)(); // Exécution sécurisée de l'expression
+            return `Le résultat est ${result}`;
+        } else {
+            return "Désolé, je n'ai pas pu calculer cela. Assurez-vous d'utiliser uniquement des chiffres et les opérateurs +, -, *, /, ^.";
+        }
+    } catch (error) {
+        return "Désolé, il y a eu une erreur dans le calcul.";
+    }
+}
+
+
+// Fonction pour jouer à Pierre-Papier-Ciseaux
+function playRockPaperScissors(userChoice) {
+    const choices = ['pierre', 'papier', 'ciseaux'];
+    const botChoice = choices[Math.floor(Math.random() * choices.length)];
+
+    if (userChoice.includes(botChoice)) {
+        return `C'est un match nul ! Nous avons tous les deux choisi ${botChoice}.`;
+    } else if (
+        (userChoice.includes('pierre') && botChoice === 'ciseaux') ||
+        (userChoice.includes('papier') && botChoice === 'pierre') ||
+        (userChoice.includes('ciseaux') && botChoice === 'papier')
+    ) {
+        return `Vous avez gagné ! J'ai choisi ${botChoice}.`;
+    } else {
+        return `J'ai gagné ! J'ai choisi ${botChoice}.`;
+    }
+}
+
+// Fonction pour obtenir la météo (simulé)
+function getWeather(userMessage) {
+    const location = userMessage.replace('météo ', '').trim();
+    const weatherInfo = `Il fait ensoleillé à ${location} avec 25°C.`; // Simuler une réponse météo
+    return `La météo à ${location} est : ${weatherInfo}`;
 }
