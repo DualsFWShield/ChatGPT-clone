@@ -327,22 +327,13 @@ const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const fileButton = document.getElementById('file-btn');
 const fileInput = document.getElementById('file-input');
-const upgradeButton = document.getElementById('upgrade-btn');
-const historyItems = document.querySelectorAll('#history-list p');
 const typingIndicator = document.getElementById('typing-indicator');
-const toggleSidebarButton = document.getElementById('toggle-sidebar');
 const newChatButton = document.getElementById('new-chat-btn');
-const sidebar = document.getElementById('sidebar');
 
 // Ajouter des événements sur les boutons
 sendButton.addEventListener('click', sendMessage);
 fileButton.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', simulateFileUpload);
-upgradeButton.addEventListener('click', simulateUpgradePlan);
-historyItems.forEach(item => {
-    item.addEventListener('click', loadConversation);
-});
-toggleSidebarButton.addEventListener('click', toggleSidebar);
 newChatButton.addEventListener('click', startNewChat);
 
 // Fonction pour envoyer un message
@@ -482,18 +473,6 @@ function simulateFileUpload() {
     }, 500);
 }
 
-// Simuler la mise à niveau du plan
-function simulateUpgradePlan() {
-    alert("Cette fonctionnalité est disponible uniquement avec un abonnement payant.");
-}
-
-// Charger une ancienne conversation
-function loadConversation(event) {
-    const conversationId = event.target.dataset.conversation;
-    // Charger les messages de la conversation depuis une source fictive
-    addMessage(`Conversation chargée avec succès`, 'bot-message');
-}
-
 // Démarrer un nouveau chat
 function startNewChat() {
     messagesContainer.innerHTML = ''; // Efface les messages existants
@@ -503,19 +482,6 @@ function startNewChat() {
 // Afficher ou masquer l'indicateur de frappe
 function showTypingIndicator(show) {
     typingIndicator.classList.toggle('hidden', !show);
-}
-
-// Basculer entre les thèmes sombre et clair
-document.getElementById('theme-toggle').addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-});
-
-// Fonction pour rétracter/étendre la barre latérale
-function toggleSidebar() {
-    sidebar.classList.toggle('collapsed');
-    toggleSidebarButton.classList.toggle('collapsed');
 }
 
 // Fonction pour définir un rappel

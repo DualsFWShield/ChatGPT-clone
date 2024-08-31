@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #1c1c1c; /* Couleur sombre par défaut */
+    background-color: #1c1c1c;
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -12,36 +12,32 @@ body {
 }
 
 /* Conteneur principal */
-#main-container {
-    display: flex;
-    height: calc(100vh - 50px); /* Ajuste pour la barre de navigation */
-}
-
-/* Sidebar */
-#sidebar {
-    background-color: #252525;
-    padding: 20px;
-    width: 200px; /* Largeur par défaut du sidebar */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+#app-container {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
     height: 100%;
-    transition: width 0.3s, transform 0.3s; /* Transition pour la rétractation */
 }
 
-#sidebar.collapsed {
-    width: 60px; /* Largeur du sidebar rétracté */
-}
-
-#sidebar-header {
+/* Header avec logo et bouton nouveau chat */
+#header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #252525;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-#toggle-sidebar, #new-chat-btn {
+#logo-container {
+    display: flex;
+    align-items: center;
+}
+
+#logo-container svg {
+    margin-right: 10px;
+}
+
+#new-chat-btn {
     background: none;
     border: none;
     color: #ffffff;
@@ -49,74 +45,16 @@ body {
     transition: color 0.3s;
 }
 
-#toggle-sidebar:hover, #new-chat-btn:hover {
+#new-chat-btn:hover {
     color: #ff6347;
 }
 
-#toggle-sidebar svg, #new-chat-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-#logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#logo {
-    width: 50px;
-}
-
-#subscription-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #3a3a3a;
-    font-size: 14px;
-}
-
-#upgrade-btn {
-    background-color: #ff6347;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    color: #ffffff;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-#upgrade-btn:hover {
-    background-color: #ff4500;
-}
-
-#history-list {
-    margin-top: 20px;
-    overflow-y: auto;
-    max-height: 100%; /* Ajuste pour occuper l'espace restant */
-}
-
-#history-list p {
-    padding: 8px;
-    margin: 0;
-    cursor: pointer;
-    border-bottom: 1px solid #3a3a3a;
-    transition: background-color 0.3s;
-}
-
-#history-list p:hover {
-    background-color: #2a2a2a;
-}
-
-/* Conteneur de chat */
-#chat-container {
+/* Conteneur principal */
+#main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #1c1c1c;
-    transition: margin-left 0.3s;
 }
 
 /* Fenêtre de chat */
@@ -142,12 +80,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     line-height: 1.5;
-    transition: transform 0.3s, background-color 0.3s;
     animation: message-fade-in 0.5s ease-out;
-}
-
-.message:hover {
-    transform: scale(1.01);
 }
 
 .user-message {
@@ -164,13 +97,9 @@ body {
 
 /* Indicateur de frappe */
 #typing-indicator {
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
-    display: flex;
-    align-items: center;
     font-size: 14px;
     color: #888;
+    margin-top: 10px;
 }
 
 .hidden {
@@ -182,9 +111,8 @@ body {
     display: flex;
     padding: 10px;
     background-color: #333;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-    align-items: center;
     border-top: 1px solid #3a3a3a;
+    align-items: center;
 }
 
 #user-input {
@@ -205,16 +133,12 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #send-button:hover, #file-btn:hover {
     color: #ff6347;
 }
 
-/* Icône de fichier */
 #file-btn {
     width: 40px;
     height: 40px;
@@ -225,130 +149,6 @@ body {
 
 #file-input {
     display: none;
-}
-
-/* Barre de navigation */
-#navbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #252525;
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-}
-
-#navbar button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#navbar button:hover {
-    color: #ff6347;
-}
-
-/* Icônes SVG dans la barre de navigation */
-#navbar svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Mode sombre/clair */
-[data-theme="light"] {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-[data-theme="light"] #sidebar {
-    background-color: #f0f0f0;
-}
-
-[data-theme="light"] #chat-container {
-    background-color: #ffffff;
-}
-
-[data-theme="light"] .message.user-message {
-    background-color: #d0e6ff;
-}
-
-[data-theme="light"] .message.bot-message {
-    background-color: #e0e0e0;
-}
-
-/* Bouton pour rétracter la barre latérale */
-#toggle-sidebar {
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    margin-bottom: 20px;
-    align-self: flex-end;
-    display: flex;
-    align-items: center;
-}
-
-#toggle-sidebar svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Bouton Nouveau Chat */
-#new-chat-btn {
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-}
-
-#new-chat-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* Sidebar et contenu réactifs */
-@media (max-width: 768px) {
-    #sidebar {
-        position: fixed;
-        z-index: 1000;
-        height: 100%;
-        left: -200px; /* Cacher la barre latérale hors écran */
-        top: 0;
-        bottom: 0;
-        transition: left 0.3s;
-        width: 100%; /* Prend toute la largeur en mode mobile */
-    }
-
-    #sidebar.collapsed {
-        left: 0; /* Montrer la barre latérale */
-        width: 100%; /* Prend toute la largeur en mode mobile */
-    }
-
-    #chat-container {
-        margin-left: 0;
-    }
-
-    #main-container {
-        flex-direction: column;
-    }
-
-    #toggle-sidebar {
-        display: block;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 1001; /* Assurer que le bouton est au-dessus de la sidebar */
-    }
 }
 
 /* Animations */
@@ -363,4 +163,17 @@ body {
     }
 }
 
+/* Responsivité */
+@media (max-width: 768px) {
+    #header {
+        padding: 10px;
+    }
 
+    #logo-container h3 {
+        display: none;
+    }
+
+    #input-container {
+        padding: 10px;
+    }
+}
