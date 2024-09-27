@@ -8,7 +8,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: hidden;
 }
 
 /* Conteneur principal */
@@ -57,6 +56,7 @@ body {
     flex-direction: column;
     background-color: #1c1c1c;
     overflow-y: auto;
+    padding-bottom: 60px; /* Evite la superposition avec la zone d'entrée de texte */
 }
 
 /* Fenêtre de chat */
@@ -84,8 +84,10 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     line-height: 1.5;
     animation: message-fade-in 0.5s ease-out;
+    position: relative;
 }
 
+/* Messages du bot et de l'utilisateur */
 .user-message {
     background-color: #4a90e2;
     align-self: flex-end;
@@ -98,15 +100,25 @@ body {
     color: #fff;
 }
 
-/* Indicateur de frappe */
-#typing-indicator {
-    font-size: 14px;
-    color: #888;
-    margin-top: 10px;
+/* Prévisualisation des fichiers */
+.file-preview {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #292929;
+    border: 1px solid #444;
+    border-radius: 5px;
 }
 
-.hidden {
-    display: none;
+.file-preview img {
+    max-width: 200px;
+    max-height: 150px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.file-preview iframe, .file-preview video {
+    max-width: 100%;
+    border: none;
 }
 
 /* Zone d'entrée de texte */
