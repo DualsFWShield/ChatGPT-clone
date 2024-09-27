@@ -57,7 +57,7 @@ async function sendMessage() {
                 addMessage(botResponse, 'bot-message');
 
                 // En mode roast, ajouter parfois un GIF
-                if (roastMode && Math.random() < 0.3) { // 30% de chances d'envoyer un GIF
+                if (roastMode && Math.random() < 0.2) { // 20% de chances d'envoyer un GIF
                     const randomGif = sendRandomGif();
                     addMessage(randomGif, 'bot-message');
                 }
@@ -82,7 +82,7 @@ function sendGif() {
 
 // Fonction pour envoyer un GIF aléatoire
 function sendRandomGif() {
-    const totalGifs = 7; // Nombre total de GIFs disponibles
+    const totalGifs = 20; // Nombre total de GIFs disponibles
     const randomIndex = Math.floor(Math.random() * totalGifs) + 1; // Choisit un nombre entre 1 et totalGifs
     return `<img src="gifs/G (${randomIndex}).gif" alt="Random GIF" style="max-width: 100%; height: auto;" />`;
 }
@@ -178,16 +178,6 @@ function playRockPaperScissors(userChoice) {
         return `J'ai gagné ! J'ai choisi ${botChoice}.`;
     }
 }
-
-// Fonction pour récupérer un GIF aléatoire
-function getRandomGif() {
-    const totalgifs = 20;
-    const iRandomGif = Math.floor(Math.random() * totalgifs) + 1; // Choisit un nombre entre 1 et totalgifs
-    return iRandomGif;
-    addMessage(`<img src="gifs/G (${iRandomGif}).gif" alt="Random GIF" style="max-width: 100%; height: auto;" />`, 'bot-message');
-}
-
-
 
 // Fonction pour récupérer la réponse du bot (gentille ou roast)
 function getBotResponse(userMessage) {
